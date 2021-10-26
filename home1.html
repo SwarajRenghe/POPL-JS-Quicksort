@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>POPL Project</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+</style>
+
+<body class="h-screen">
+    <div class="text-center my-2 text-6xl">
+        Quicksort
+    </div>
+    <div class="text-center my-2 mb-4">
+        <button onclick="showCard(1)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            The QuickSort Algorithm
+        </button>
+        <button onclick="showCard(2)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            Input Array
+        </button>
+        <button onclick="showCard(3)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            Pivot
+        </button>
+        <button onclick="showCard(4)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            Partition
+        </button>
+        <button onclick="showCard(5)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            Sort
+        </button>
+        <button onclick="showCard(6)"
+            class="transition duration-500 ease-in-out bg-blue-700 hover:bg-gray-900 text-white font-bold py-2 my-2 mx-2 px-8 rounded">
+            Present
+        </button>
+    </div>
+    <div id="card_1" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                The Quick Sort Algorithm
+            </div>
+            <div class="text-justify mx-8 my-2 mt-4 text-lg">
+                Quicksort is a popular divide-and-conquer algorithm, and we will attempt to build a visual description
+                of the algorithm.
+                We will individually document every separate atomic step as a state machine - and demonstrate the pivot
+                mechanism,
+                the partition mechanism, and the recursive nature of the algorithm. We will follow the algorithm with
+                visual nodes
+                representing numbers in a list - and progressively go through each pivot and partition step until the
+                list of numbers
+                is sorted.
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                State Machines
+            </div>
+        </div>
+    </div>
+    <div id="card_2" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Input Array Machine
+            </div>
+            <div class="text-center mx-8 my-2 mt-4 text-lg">
+                Some information about it
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Setting the input array
+            </div>
+            <div class="text-center">
+                <input maxlength="2" type="text" name="input_array_field" id="input_array_field"
+                    class="text-center text-2xl w-16 px-4 py-4 my-2">
+                <button class="bg-blue-600 px-4 py-4 mx-4 text-blue-100" onclick="addElementButtonPress()"> Add
+                </button>
+            </div>
+            <div id="invalid_input_error_message" class="text-center my-4 text-lg text-red-600 hidden">
+                Please enter a number from 0 to 99.
+            </div>
+            <div id="here"></div>
+            <div name="array_container" class="flex justify-center mt-8" id="array_container_input">
+                <div>Add some elements in the array</div>
+            </div>
+        </div>
+    </div>
+    <div id="card_3" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Pivot Machine
+            </div>
+            <div class="text-center mx-8 my-2 mt-4 text-lg">
+                Some information about it
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Select a Pivot Element
+            </div>
+            <div class="text-center mx-2 my-2 mt-4 text-xl">
+                <div name="array_container" class="flex justify-center mt-8" id="array_container_pivot">
+                    <div>Add some elements in the array (Go to Input Array Machine)</div>
+                </div>
+            </div>
+            <div class="text-center mx-2 my-2 mt-4">
+                <button onclick="previousStep()" class="px-2 py-2 bg-blue-700 text-white text-lg mx-8 mt-12">Previous
+                    Step</button>
+                <button onclick="nextStep()" class="px-2 py-2 bg-blue-700 text-white text-lg mx-8 mt-12">Next
+                    Step</button>
+            </div>
+        </div>
+    </div>
+    <div id="card_4" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Partition Machine
+            </div>
+            <div class="text-center mx-8 my-2 mt-4 text-lg">
+                Some information about it
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Performing the Partition
+            </div>
+        </div>
+    </div>
+    <div id="card_5" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Sort Machine
+            </div>
+            <div class="text-center mx-8 my-2 mt-4 text-lg">
+                Some information about it
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Performing the Sort
+            </div>
+        </div>
+    </div>
+    <div id="card_6" class="flex mb-4 hidden">
+        <div class="w-1/3 bg-blue-200 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                Presentation Machine
+            </div>
+            <div class="text-center mx-8 my-2 mt-4 text-lg">
+                Some information about it
+            </div>
+        </div>
+        <div class="w-2/3 bg-blue-300 h-auto pb-4">
+            <div class="text-center mx-2 my-2 mt-4 text-4xl">
+                ??? idk what this is
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var currentArray = [];
+    var numberOfNodes = 0;
+    var selectedIndex = -1;
+    var currentlySelectedNode = -1;
+
+    function addElement(number) {
+        currentArray.push(number);
+        numberOfNodes++;
+    }
+
+    function createNodeForInputArray(newNodeValue) {
+        nodeID = "node" + numberOfNodes.toString();
+        node_html_main_div = '<div name="node" class="w-16 text-2xl py-4 my-2 mx-2 text-center bg-green-200 border-solid border-2 border-green-400">';
+        node_html_closing_tags = '</div>'
+        return node_html_main_div + newNodeValue.toString() + node_html_closing_tags;
+    }
+    function createNodeForPivotArray(newNodeValue) {
+        nodeID = "node" + numberOfNodes.toString() + "_pivot";
+        node_html_main_div = '<div name="node" onclick="selectNode(\'' + nodeID + '\')" class="w-16 text-2xl py-4 my-2 mx-2 text-center bg-green-200 border-solid border-2 border-green-400" id="' + nodeID + '">';
+        node_html_closing_tags = '</div>'
+        return node_html_main_div + newNodeValue.toString() + node_html_closing_tags;
+    }
+
+    function createPivotDemonstration() {
+
+    }
+
+    function unselectAllNodes() {
+        allNodes = document.getElementsByName("node");
+        for (node of allNodes) {
+            if (node.classList.contains('bg-red-200')) {
+                console.log("yes it contains")
+                node.classList.add('bg-green-200');
+                node.classList.remove('bg-red-200');
+            }
+        }
+    }
+
+    function pivot_moveAllExceptUnselectedUp(selectedNodeID) {
+        for (i = 0; i < numberOfNodes; i++) {
+            var idForThis = "#node" + i.toString() + "_pivot";
+            if (idForThis == "#" + selectedNodeID) {
+                continue;
+            }
+            $(idForThis).animate({ marginTop: '2rem' });
+        }
+    }
+    function pivot_resetAllNodePositions() {
+        for (i = 0; i < numberOfNodes; i++) {
+            $("#node" + i.toString() + "_pivot").animate({ marginTop: '0' });
+        }
+    }
+
+    function selectNode(nodeID) {
+        currentlySelectedNode = parseInt(nodeID.match(/\d+/)[0]);
+        pivot_resetAllNodePositions();
+        if (![3].includes(selectedCard)) {
+            return;
+        }
+        unselectAllNodes();
+        document.getElementById(nodeID).classList.remove('bg-green-200');
+        document.getElementById(nodeID).classList.add('bg-red-200');
+
+        pivot_moveAllExceptUnselectedUp(nodeID);
+    }
+
+    function getEnteredValue() {
+        var saved = $("#input_array_field").val();
+        $("#input_array_field").val("");
+        return saved;
+    }
+
+    function addElementButtonPress() {
+        newNodeValue = getEnteredValue();
+        console.log(newNodeValue)
+        if (newNodeValue == '') {
+            showInvalidInputError();
+            return;
+        }
+        if (!isNumeric(newNodeValue)) {
+            showInvalidInputError();
+            return;
+        }
+        if (numberOfNodes == 0) {
+            $("#array_container_input").html(createNodeForInputArray(newNodeValue)); // unselectable components
+            $("#array_container_pivot").html(createNodeForPivotArray(newNodeValue)); // selectable components
+            addElement(newNodeValue);
+        } else {
+            $("#array_container_input").append(createNodeForInputArray(newNodeValue)); // unselectable components
+            $("#array_container_pivot").append(createNodeForPivotArray(newNodeValue)); // selectable components
+            addElement(newNodeValue);
+        }
+    }
+
+    function renderArray() {
+        return 0;
+    }
+
+    /**
+     * Draws a line between the centers of the two elements
+     * @param  {[string]}  idOfElement  [The ID of the element. It must be unique.]
+     * @return {[bi-list]} center       [Pair of x and y coordinates of the geometric center of the AABB of the element]
+     */
+
+    /**
+     * Draws a line between the centers of the two elements
+     * @param  {[string]} idOfFirstElement  [The ID of the first element. It must be unique.]
+     * @param  {[string]} idOfFirstElement  [The ID of the second element. It must be unique.]
+     * @return {[none]}                     [Returns nothing, draws directly on the HTML canvas]
+     */
+
+
+</script>
+
+<script>
+    numberOfCards = 6;
+    selectedCard = 3;
+    showCard(selectedCard);
+
+    function hideAllCards() {
+        for (i = 0; i < numberOfCards; i++) {
+            document.getElementById("card_" + (i + 1).toString()).classList.add("hidden");
+        }
+    }
+
+    function showCard(card_number) {
+        hideAllCards();
+        selectedCard = card_number;
+        document.getElementById("card_" + (selectedCard).toString()).classList.remove("hidden");
+    }
+
+</script>
+
+<script>
+    leftPointer = 0;
+    if (currentlySelectedNode == currentArray.length - 1) {
+        rightPointer = currentArray.length - 2
+    } else {
+        rightPointer = currentArray.length - 1
+    }
+    currentState = 'first';
+
+    function selectEnds() {
+        console.log(rightPointer)
+        $("#node" + leftPointer.toString() + "_pivot").removeClass('border-green-400');
+        $("#node" + leftPointer.toString() + "_pivot").removeClass('border-2');
+        $("#node" + leftPointer.toString() + "_pivot").addClass('border-red-700');
+        $("#node" + leftPointer.toString() + "_pivot").addClass('border-4');
+
+        $("#node" + rightPointer.toString() + "_pivot").removeClass('border-green-400');
+        $("#node" + rightPointer.toString() + "_pivot").removeClass('border-2');
+        $("#node" + rightPointer.toString() + "_pivot").addClass('border-red-700');
+        $("#node" + rightPointer.toString() + "_pivot").addClass('border-4');
+    }
+
+    function nextStep() {
+        switch (currentState) {
+            case 'first':
+                leftPointer = 0;
+                if (currentlySelectedNode == currentArray.length - 1) {
+                    rightPointer = currentArray.length - 2
+                } else {
+                    rightPointer = currentArray.length - 1
+                }
+                stateInfo = [];
+                currentState = '';
+            case 'select_ends':
+                selectEnds();
+                break
+        }
+    }
+
+</script>
+
+<script>
+    function showInvalidInputError() {
+        document.getElementById("invalid_input_error_message").classList.remove("hidden");
+        setTimeout(function () { document.getElementById("invalid_input_error_message").classList.add("hidden"); }, 2000);
+    }
+    function isNumeric(value) {
+        return /^-?\d+$/.test(value);
+    }
+</script>
+
+</html>
